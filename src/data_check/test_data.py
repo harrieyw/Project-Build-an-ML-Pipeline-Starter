@@ -29,8 +29,12 @@ def test_column_names(data: pd.DataFrame) -> None:
     ]
 
     these_columns = data.columns.values
-
+    
     # This also enforces the same order
+    #Ensures all required columns exist
+    #Ensures the order is EXACTLY the same
+    #If your new CSV adds, removes, or reorders columns → pipeline stops
+    #Purpose: protect against schema drift.
     assert list(expected_colums) == list(these_columns)
 
 
@@ -87,3 +91,26 @@ def test_similar_neigh_distrib(data: pd.DataFrame, ref_data: pd.DataFrame, kl_th
 ########################################################
 # Implement here test_row_count and test_price_range   #
 ########################################################
+def test_row_count(data: pd.DataFrame, min_rows: int = 15000, max_rows: int = 1000000) -> None:
+    """
+    Ensure the dataset has a reasonable number of rows
+
+    """
+    #Number of rows must be at least 5 and not more than 1 million
+    row_count = data.shape[0]
+
+    assert row_count >= min_rows, f"Dataset has too few rows: {row_count}"
+    assert row_count <= max_rows, f"Dataset has too many rows: {row_count}"
+
+#Test price range
+def test_price_range(data: pd.DataFrame, min_price: float, max_price: float) -> None:
+    """
+    Ensure the price column is within expected bounds.
+    """ 
+    prices = data['price']
+    idx = prices.between(min_price, max_price)
+    assert idx.all(), (
+        f"Found prices outside range {min_price}–{max_price}. "
+        f"Invalid prices: {prices[~idx].tolist()}"
+    )
+

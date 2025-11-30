@@ -7,6 +7,7 @@ main:
   steps: all
 etl:
   sample: "sample1.csv"
+  #sample: "sample.csv"
   min_price: 10  # dollars
   max_price: 350  # dollars
 data_check:
@@ -17,7 +18,7 @@ modeling:
   # Fraction of remaining data to use for validation
   val_size: 0.2
   # Fix this for reproducibility, change to have new splits
-  random_seed: 42
+  random_seed: 42  
   # Column to use for stratification (use "none" for no stratification)
   stratify_by: "neighbourhood_group"
   # Maximum number of features to consider for the TFIDF applied to the title of the
@@ -26,8 +27,8 @@ modeling:
   # NOTE: you can put here any parameter that is accepted by the constructor of
   # RandomForestRegressor. This is a subsample, but more could be added:
   random_forest:
-    n_estimators: 100
-    max_depth: 15
+    n_estimators: 200
+    max_depth: 50
     min_samples_split: 4
     min_samples_leaf: 3
     # Here -1 means all available cores
@@ -35,4 +36,4 @@ modeling:
     criterion: squared_error
     max_features: 0.5
     # DO not change the following
-    oob_score: true
+    oob_score: true  

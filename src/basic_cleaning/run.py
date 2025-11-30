@@ -25,6 +25,8 @@ logger = logging.getLogger()
        - Filters to NYC bounding box.
     4. Saves the cleaned file locally.
     5. Logs the cleaned file as a new W&B artifact.
+
+"""
 def go(args):
 
     run = wandb.init(job_type="basic_cleaning")
@@ -56,7 +58,7 @@ def go(args):
  )
     artifact.add_file("clean_sample.csv")
     run.log_artifact(artifact)
-"""
+
 
 # TODO: In the code below, fill in the data type for each argumemt. The data type should be str, float or int. 
 # TODO: In the code below, fill in a description for each argument. The description should be a string.
